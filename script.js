@@ -17,11 +17,14 @@ function writePassword() {
 generateBtn.addEventListener("click", writePassword);
 
 function queryLength() {
-  const inputLength = prompt("How many characters long will your password be?", "Must be a number 8-128");
+  const lowerLimit = 8;
+  const upperLimit = 128;
+  const inputLength = prompt("How many characters long will your password be?", "Must be a number " +
+     lowerLimit + "-" + upperLimit);
   if (inputLength === null) {
     return null;
-  } else if (isNaN(inputLength) || inputLength <= 8 || inputLength >= 128) {
-    alert("Error: Not a number 8-128.");
+  } else if (isNaN(inputLength) || inputLength < lowerLimit || inputLength > upperLimit) {
+    alert("Error: Not a number " + lowerLimit + "-" + upperLimit + ".");
     return queryLength();
   } 
   return inputLength;
@@ -54,11 +57,31 @@ function generateLetter(isUpper) {
   }
 }
 
+function generateSymbol() {
+  const symbols = ['#','%','^','&','*','(',')','!','@','#'];
+  const randIndex = Math.floor(Math.random() * symbols.length);
+  return symbols[randIndex];
+}
+
+function generateNumeric() {
+  return Math.floor(Math.random() * 10);
+}
+
+function findRandEmptySlot(characters) {
+  let slot;
+  do {
+    slot = Math.floor(Math.random() * characters.length);
+    console.log(characters + ", " + slot);
+  } while (characters[slot] !== undefined);
+  return slot;
+}
+
 function generatePassword() {
   const length = queryLength();
   if (length === null) {
     return null;
   }
+
   const upperCase = queryUpperCase();
   const lowerCase = queryLowerCase();
   const numeric = queryNumeric();
@@ -68,13 +91,46 @@ function generatePassword() {
     return null;
   }
 
-  var characters = [];
-  
-  console.log(length + upperCase + lowerCase + numeric + special);
-}
+  let characters = [];
+  for (i = 0; i < length; i++) {
+    characters.push(undefined);
+  }
 
-// let str = '';
-// for (i = 0; i < 100; i++) {
-//   str+= generateLetter(true);
-// }
-// console.log(str);
+  let generators = [];
+  if (upperCase) {
+    const slot = findRandEmptySlot(characters);
+    characters[slot] = generateLetter(true);
+
+    generators.push(() => { return generateLetter(true);});
+  }
+
+  if (lowerCase) {
+    const slot = findRandEmptySlot(characters);
+    characters[slot] = generateLetter(false);
+
+    generators.push(() => { return generateLetter(false);});
+  }
+
+  if (numeric) {
+    const slot = findRandEmptySlot(characters);
+    characters[slot] = generateNumeric();
+
+    generators.push(() => { return generateNumeric();});
+  }
+
+  if (special) {
+    const slot = findRandEmptySlot(characters);
+    characters[slot] = generateSymbol();
+
+    generators.push(() => { return generateSymbol();});
+  }
+
+  for (let i = 0; i < length; i++) {
+    if (characters[i] === undefined) {
+      const charType = Math.floor(Math.random() * generators.length);
+      characters[i] = generators[charType]();
+    }
+  }
+
+  return characters.join('');
+}
