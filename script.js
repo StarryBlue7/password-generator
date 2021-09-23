@@ -16,8 +16,9 @@ function writePassword() {
 generateBtn.addEventListener("click", writePassword);
 
 // Prompt for length of password, gives an error message and re-prompts if input is invalid
+// Adjust lowerLimit and upperLimit values to adjust character length range
 function queryLength() {
-  const lowerLimit = 4;
+  const lowerLimit = 8;
   const upperLimit = 128;
   const inputLength = prompt("How many characters long will your password be?", "Must be a number " +
      lowerLimit + "-" + upperLimit);
@@ -47,7 +48,7 @@ function querySpecial() {
   return confirm("Will it include special characters? Click OK for yes or Cancel for no.");
 }
 
-// Generate upper or lower case letter
+// Generate random upper or lower case letter
 function generateLetter(isUpper) {
   const randLetter = Math.floor(Math.random() * 26);
   if (isUpper) {
@@ -59,14 +60,15 @@ function generateLetter(isUpper) {
   }
 }
 
-// Generate symbol
-function generateSymbol() {
-  const symbols = ['!','@','#','$','%','^','&','*','(',')','+','\\','/','\'','?',':',',','{','}','[',']','~','`','-','_','.'];
-  const randIndex = Math.floor(Math.random() * symbols.length);
-  return symbols[randIndex];
+// Generate random special character
+// Add or remove special characters from specialCharacters[] to fit requirements
+function generateSpecial() {
+  const specialCharacters = ['!','@','#','$','%','^','&','*','(',')','+','\\','/','\'','?',':',',','{','}','[',']','~','`','-','_','.'];
+  const randIndex = Math.floor(Math.random() * specialCharacters.length);
+  return specialCharacters[randIndex];
 }
 
-// Generate number
+// Generate random number
 function generateNumeric() {
   return Math.floor(Math.random() * 10);
 }
@@ -83,7 +85,7 @@ function findRandEmptySlot(characters) {
 // Main password generation function
 function generatePassword() {
 
-  // Initial queries, quit on "Cancel" for length input or "Cancel" for all character types
+  // Initial queries. Quits on "Cancel" for length input, or "Cancel" for all character types
   const length = queryLength();
   if (length === null) {
     return null;
@@ -131,9 +133,9 @@ function generatePassword() {
 
   if (special) {
     const slot = findRandEmptySlot(characters);
-    characters[slot] = generateSymbol();
+    characters[slot] = generateSpecial();
 
-    generators.push(() => { return generateSymbol();});
+    generators.push(() => { return generateSpecial();});
   }
 
   // Randomly choose other required character types and fill remaining empty indices
