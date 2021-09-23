@@ -10,7 +10,6 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 // Add event listener to generate button
@@ -18,7 +17,7 @@ generateBtn.addEventListener("click", writePassword);
 
 // Prompt for length of password, gives an error message and re-prompts if input is invalid
 function queryLength() {
-  const lowerLimit = 8;
+  const lowerLimit = 4;
   const upperLimit = 128;
   const inputLength = prompt("How many characters long will your password be?", "Must be a number " +
      lowerLimit + "-" + upperLimit);
@@ -138,12 +137,12 @@ function generatePassword() {
   }
 
   // Randomly choose other required character types and fill remaining empty indices
-  for (let i = 0; i < length; i++) {
-    if (characters[i] === undefined) {
+  characters.forEach(function callbackFn(value, i) {
+    if (value === undefined) {
       const charType = Math.floor(Math.random() * generators.length);
       characters[i] = generators[charType]();
     }
-  }
+  });
 
   // Return string from filled password characters array
   return characters.join('');
