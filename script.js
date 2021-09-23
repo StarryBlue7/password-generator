@@ -58,7 +58,7 @@ function generateLetter(isUpper) {
 }
 
 function generateSymbol() {
-  const symbols = ['#','%','^','&','*','(',')','!','@','#'];
+  const symbols = ['!','@','#','$','%','^','&','*','(',')','+','\\','/','\'','?',':',',','{','}','[',']','~','`','-','_','.'];
   const randIndex = Math.floor(Math.random() * symbols.length);
   return symbols[randIndex];
 }
