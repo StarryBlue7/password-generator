@@ -71,7 +71,6 @@ function findRandEmptySlot(characters) {
   let slot;
   do {
     slot = Math.floor(Math.random() * characters.length);
-    console.log(characters + ", " + slot);
   } while (characters[slot] !== undefined);
   return slot;
 }
@@ -87,7 +86,7 @@ function generatePassword() {
   const numeric = queryNumeric();
   const special = querySpecial();
   if (upperCase === false && lowerCase === false && numeric === false && special === false) {
-    alert(":P");
+    alert("No character types chosen.");
     return null;
   }
 
