@@ -1,3 +1,14 @@
+// Adjust lowerLimit and upperLimit values to adjust character length range
+const lowerLimit = 8;
+const upperLimit = 128;
+
+// Add or remove special characters from specialCharacters[] to fit requirements
+const specialCharacters = ['!','@','#','$','%','^','&','*','(',')','+','\\','/','\'','?',':',',','{','}','[',']','~','`','-','_','.'];
+
+// Set background effect on (true) or off (false)
+const background = true;
+
+
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
@@ -10,16 +21,19 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+
+  // Starts background animation when password is generated
+  if (background === true) {
+    setInterval(backgroundAnimation, 20);
+  }
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
 
 // Prompt for length of password, gives an error message and re-prompts if input is invalid
-// Adjust lowerLimit and upperLimit values to adjust character length range
 function queryLength() {
-  const lowerLimit = 8;
-  const upperLimit = 128;
+
   const inputLength = prompt("How many characters long will your password be?", "Must be a number " +
      lowerLimit + "-" + upperLimit);
   if (inputLength === null) {
@@ -61,9 +75,7 @@ function generateLetter(isUpper) {
 }
 
 // Generate random special character
-// Add or remove special characters from specialCharacters[] to fit requirements
 function generateSpecial() {
-  const specialCharacters = ['!','@','#','$','%','^','&','*','(',')','+','\\','/','\'','?',':',',','{','}','[',']','~','`','-','_','.'];
   const randIndex = Math.floor(Math.random() * specialCharacters.length);
   return specialCharacters[randIndex];
 }
@@ -148,4 +160,28 @@ function generatePassword() {
 
   // Return string from filled password characters array
   return characters.join('');
+}
+
+// Matrix-style background effect below, not necessary for funtionality
+// Animates text in background using special characters allowed in password
+var matrix = document.getElementById("matrix");
+var ctx = matrix.getContext("2d");
+matrix.height = window.innerHeight;
+matrix.width = window.innerWidth;
+var characterSize = 20;
+var columns = matrix.width / characterSize;
+var drops = [];
+for (var x = 0; x < columns; x++) drops[x] = 1;
+
+function backgroundAnimation() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, matrix.width, matrix.height);
+  ctx.fillStyle = "rgb(0, 113, 206)";
+  ctx.font = characterSize + "px arial";
+  for (var i = 0; i < drops.length; i++) {
+    var text = specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
+    ctx.fillText(text, i * characterSize, drops[i] * characterSize);
+    if (drops[i] * characterSize > matrix.height || Math.random() > 0.98) drops[i] = 0;
+    drops[i]++;
+  }
 }
