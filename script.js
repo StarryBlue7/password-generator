@@ -6,11 +6,15 @@ const upperLimit = 128;
 const specialCharacters = ['!','@','#','$','%','^','&','*','(',')','+','\\','/','\'','?',':',',','{','}','[',']','~','`','-','_','.'];
 
 // Set background effect on (true) or off (false)
-const background = true;
+var background = true;
 
 
 // Assignment Code
-var generateBtn = document.querySelector("#generate");
+const generateBtn = document.querySelector("#generate");
+const cardHeader = document.querySelector(".card-header");
+const passwordBox = document.getElementById("password");
+const matrix = document.getElementById("matrix");
+var generated;
 
 // Write password to the #password input
 function writePassword() {
@@ -18,9 +22,9 @@ function writePassword() {
   if (password === null) {
     return;
   }
-  var passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
+  passwordBox.value = password;
+  generated = true;
 
   // Starts background animation when password is generated
   if (background === true) {
@@ -162,10 +166,25 @@ function generatePassword() {
   return characters.join('');
 }
 
+// Automatically copy text to clipboard on click
+passwordBox.addEventListener("click", copyToClipboard);
+
+function copyToClipboard() {
+  if (generated === true) {
+    passwordBox.select();
+    passwordBox.setSelectionRange(0, upperLimit);
+    navigator.clipboard.writeText(passwordBox.value);
+    cardHeader.textContent = "Copied to clipboard!";
+    cardHeader.style.fontSize = "26px";
+    setTimeout(() => {
+      cardHeader.textContent = "Click 'Generate Password' again for another password.";
+    }, 1500);
+  }
+}
+
 // Matrix-style background effect below, not necessary for funtionality
 // Animates text in background using special characters allowed in password
-var matrix = document.getElementById("matrix");
-var ctx = matrix.getContext("2d");
+var context = matrix.getContext("2d");
 matrix.height = window.innerHeight;
 matrix.width = window.innerWidth;
 var characterSize = 20;
@@ -174,14 +193,15 @@ var drops = [];
 for (var x = 0; x < columns; x++) drops[x] = 1;
 
 function backgroundAnimation() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, matrix.width, matrix.height);
-  ctx.fillStyle = "rgb(0, 113, 206)";
-  ctx.font = characterSize + "px arial";
+  context.fillStyle = "rgba(0, 0, 0, 0.05)";
+  context.fillRect(0, 0, matrix.width, matrix.height);
+  context.fillStyle = "rgb(0, 113, 206)";
+  context.font = characterSize + "px arial";
   for (var i = 0; i < drops.length; i++) {
     var text = specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
-    ctx.fillText(text, i * characterSize, drops[i] * characterSize);
+    context.fillText(text, i * characterSize, drops[i] * characterSize);
     if (drops[i] * characterSize > matrix.height || Math.random() > 0.98) drops[i] = 0;
     drops[i]++;
   }
+  background = false;
 }

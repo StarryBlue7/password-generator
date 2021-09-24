@@ -50,6 +50,12 @@ header {
   z-index: 1;
 }
 
+.card-header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
 .card-header::after {
   content: " ";
   display: block;
