@@ -1,6 +1,8 @@
 # Password Generator
 
-This is a randomized password generator capable of creating a password of 8-128 characters that may or may not include lower case letters, upper case letters, numbers, and special characters, depending on the user's choices. It first generates and randomly positions one of each type of chosen character before generating random characters of chosen types to ensure that at least one of each character type will be represented in the final password.
+This is a randomized password generator capable of creating a password of 8-128 characters that may or may not include lower case letters, upper case letters, numbers, and special characters, depending on the user's choices. It first generates and randomly positions one of each type of chosen character before generating random characters of chosen types to ensure that at least one of each character type will be represented in the final password. 
+
+The generated password can then be automatically copied to clipboard by clicking anywhere in its containing text box.
 
 ![Password generation preview](./assets/generation-demo.gif)
 
