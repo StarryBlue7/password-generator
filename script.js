@@ -6,7 +6,7 @@ const upperLimit = 128;
 const specialCharacters = ['!','@','#','$','%','^','&','*','(',')','+','\\','/','\'','?',':',',','{','}','[',']','~','`','-','_','.'];
 
 // Set background effect on (true) or off (false)
-const background = true;
+const background = false;
 
 
 // Assignment Code
