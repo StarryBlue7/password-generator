@@ -14,20 +14,21 @@ body,
 
 body {
   font-family: sans-serif;
-  background-color: #f9fbfd;
+  background-color: #000000;
 }
 
 .wrapper {
-  padding-top: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 header {
   text-align: center;
   padding: 20px;
   padding-top: 0px;
-  color: hsl(206, 17%, 28%);
+  color: hsl(0, 0%, 100%);
 }
 
 .card {
@@ -38,7 +39,7 @@ header {
   color: hsl(206, 17%, 28%);
   font-size: 18px;
   margin: 0 auto;
-  max-width: 800px;
+  width: 30vw;
   padding: 30px 40px;
 }
 
@@ -74,7 +75,7 @@ header {
 
 .btn {
   border: none;
-  background-color: hsl(360, 91%, 36%);
+  background-color: rgb(0, 113, 206);
   border-radius: 25px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px
     0px;
@@ -118,6 +119,19 @@ button[disabled] {
   overflow: hidden;
 }
 
+@media (max-width: 1440px) {
+  .card {
+    width: 50vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 70vw;
+  }
+}
+
+
 @media (max-width: 690px) {
   .btn {
     font-size: 1rem;
@@ -127,6 +141,10 @@ button[disabled] {
 
   #password {
     font-size: 1rem;
+  }
+
+  .card {
+    width: 90vw;
   }
 }
 
